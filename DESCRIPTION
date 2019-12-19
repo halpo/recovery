@@ -1,0 +1,21 @@
+Package: recovery
+Type: Package
+Title: Enhanced Recovery for R
+Version: 0.1.0
+Author: Who wrote it
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: Provides the recovery function which is more intelligent 
+    that the base recover function.  Call labels are improved to 
+    more acurately determine the correct frame to inpect.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1
+Imports: 
+    dplyr,
+    magrittr,
+    methods,
+    pkgcond,
+    purrr,
+    utils
