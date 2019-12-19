@@ -18,18 +18,22 @@ call_stack_data <- function(n=sys.nframe()-1L){
 
     call.syms <- map(calls, getElement, 1L) %>% map(is.name)
 
-    data.frame( label       = pmap_chr(list(i=i, call=calls, fun=funs), call_label)
+    structure(
+    data.frame( call.num    = i
+              , label       = pmap_chr(list(i=i, call=calls, fun=funs), call_label)
               , srcrefs     = map_chr(calls, get_call_srcref)
               , namespace   = map_chr(funs, get_namespace_name)
               , fun.class   = map_chr(funs, first_class)
               , hidden      = map_lgl(map(funs, attr, 'hideFromDebugger'), isTRUE)
               , call.symbol = map_chr(calls, get_call_symbol)
+              , same.parent = lag(diff(sys.parents()) == 0L, 1, FALSE)
+              , is.root.call= head(sys.parents(), n)==0L
               # , called.from.namespace
               #              = dplyr::lag(map_chr(funs, get_namespace_name), 1)
               # , parent.num = head(sys.parents(), n)
               # , parent.ns = sys.parents() %>% head(n) %>% map(. %>% sys.frame %>% topenv) %>% map_chr(get_namespace_name)
-              , same.parent = lag(diff(sys.parents()) == 0L, 1, FALSE)
               )
+    , calls=calls, funs=funs)
 }
 if(FALSE){#@testing
     test_call_stack_data <- function(...){call_stack_data()}
