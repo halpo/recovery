@@ -26,13 +26,13 @@ call_stack_data <- function(n=sys.nframe()-1L){
               , fun.class   = map_chr(funs, first_class)
               , hidden      = map_lgl(map(funs, attr, 'hideFromDebugger'), isTRUE)
               , call.symbol = map_chr(calls, get_call_symbol)
-              , same.parent = lag(diff(sys.parents()) == 0L, 1, FALSE)
+              , same.parent = head(lag(diff(sys.parents()) == 0L, 1, FALSE), n)
               , is.root.call= head(sys.parents(), n)==0L
               # , called.from.namespace
               #              = dplyr::lag(map_chr(funs, get_namespace_name), 1)
               # , parent.num = head(sys.parents(), n)
               # , parent.ns = sys.parents() %>% head(n) %>% map(. %>% sys.frame %>% topenv) %>% map_chr(get_namespace_name)
-              )
+              , stringsAsFactors=FALSE)
     , calls=calls, funs=funs)
 }
 if(FALSE){#@testing
@@ -43,4 +43,12 @@ if(FALSE){#@testing
     data <- 3 %>% test_call_stack_data
 
     data
+if(interactive()){
+    getOption('error')
+    map(1, stop)
+
+
 }
+
+}
+

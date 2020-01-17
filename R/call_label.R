@@ -15,11 +15,12 @@ is_infix <- function(sym){
 fix_backticks <- function(x)sub("^`([^`]+)`", "\\1", x)
 
 
+.anonymous.call <- "\u00ABanonymous\u00BB"
 get_call_symbol <-
 function( call
         , nested = deparse
         , ...
-        , anonymous = "\u00ABanonymous\u00BB"
+        , anonymous = .anonymous.call
         , other = NA_character_
         ){
     if (is.symbol(call[[1]])) return(as.character(call[[1]])) else
@@ -179,6 +180,8 @@ function( i
 #' @param i the call number
 #' @param fun the function called
 #' @param call the call to label
+#' @param ... passed on or ignored
+#' @param width the maximum width of the call label.
 #'
 #' @export
 call_label <-
