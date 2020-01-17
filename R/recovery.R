@@ -39,16 +39,6 @@ recovery <- function(...){
     }
     raw.data <- call_stack_data(nframes-1L)
     data <- filter_call_stack(...)
-    # keep <- ( data$is.root.call
-    #         | !( data$namespace %in% exclude.namespaces
-    #            | data$same.parent & exclude.same.parent
-    #            | data$fun.class %in% exclude.function.classes
-    #            | data$hidden
-    #            | (exclude.anonymous.functions & data$call.symbol == .anonymous.call)
-    #            | mgrepl(data$call.symbol, exclude.function.names)
-    #            )
-    #         )
-    # frame.numbers <- data[keep, 'call.num']
     label <- pull(transmute(data, recovery_labels(namespace, srcrefs, label)))
     repeat {
         which <- menu(label, title = "\nEnter a frame number, or 0 to exit  ")
@@ -87,7 +77,7 @@ if(FALSE){#@testing
 
 }
 
-#' @describeIn recovery
+#' @describeIn recovery filter call stak data
 filter_call_stack <-
 function( data = call_stack_data(sys.parent())
         , exclude.namespaces          = recovery_opt(exclude.namespaces)
