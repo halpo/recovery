@@ -19,3 +19,5 @@ Imports:
     pkgcond,
     purrr,
     utils
+URL: https://github.com/halpo/recovery
+BugReports: https://github.com/halpo/recovery/issues
